@@ -19,19 +19,24 @@
       background-position: top center;
       background-color: #000;
     }
+
     img {
       width: 100px;
       height: 150px;
     }
-    .boardgame {
-      padding: 10rem 1.5rem;
-      width: 1100px;
-      margin: 0 auto;
+
+
+    .boardgame{
+	padding: 10rem 1.5rem;
+      width:1100px;
+      margin:0 auto;
     }
+
     .starter-template {
       padding: 3rem 1.5rem;
       text-align: center;
     }
+
     .tab-body {
       padding: 1.5rem;
     }
@@ -39,157 +44,136 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
 
-<div class="boardgame">
-  <table id="cardTable" cellpadding="15">
-    <thead></thead>
-    <tbody id="cardTableBody"></tbody>
-  </table>
+  <div class="boardgame">
+    <table id="cardTable" cellpadding="15">
+      <thead></thead>
+      <tbody id="cardTableBody"></tbody>
+    </table>
 
-</div>
-
-<div id="modalstart" class="modal">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Welcome to CivicMemory!</h5>
-      </div>
-      <div class="modal-body">
-        <p>This game is timed, you have 1 minute to match all the cards!</p>
-      </div>
-      <div class="modal-footer">
-        <button id="startButton" type="button" class="btn btn-primary">Start!</button>
-      </div>
-    </div>
   </div>
-</div>
-  <div id="modalEnd" class="modal">
+
+  <div id="modalstart" class="modal">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">You won!</h5>
+          <h5 class="modal-title">Welcome to CivicMemory!</h5>
         </div>
         <div class="modal-body">
-          <p>You have a fantastic memory and great perseverance. Want to play again?</p>
+          <p>This game is timed, you have 1 minute to match all the cards!</p>
         </div>
         <div class="modal-footer">
           <button id="startButton" type="button" class="btn btn-primary">Start!</button>
         </div>
       </div>
     </div>
-  </div>
-  <script>
-    (function() {
-      let cardArray = []; // the card array to hold all the playing cards
-      let clicks = []; //the order of clicks to process
-      let isPlaying = false;
-      let interval;
-      // the card constructor to create new cards
-      function Card(id, fileName, isFlipped) {
-        this.id = id;
-        this.fileName = fileName;
-        this.isFlipped = isFlipped;
-      }
-      /*no two games should be the same, that wouldn't be any fun. Radomize the cards*/
-      function shuffle(array) {
-        var currentIndex = array.length,
-          temporaryValue, randomIndex;
-        // While there remain elements to shuffle...
-        while (0 !== currentIndex) {
-          // Pick a remaining element...
-          randomIndex = Math.floor(Math.random() * currentIndex);
-          currentIndex -= 1;
-          // And swap it with the current element.
-          temporaryValue = array[currentIndex];
-          array[currentIndex] = array[randomIndex];
-          array[randomIndex] = temporaryValue;
+    <script>
+      (function() {
+
+        let cardArray = []; // the card array to hold all the playing cards
+
+        // the card constructor to create new cards
+        function Card(id, fileName, isFlipped) {
+          this.id = id;
+          this.fileName = fileName;
+          this.isFlipped = isFlipped;
         }
-        return array;
-      }
-      /*when the page loads show the welcome modal */
-      $(document).ready(function() {
-        $("#modalstart").show();
-      });
-      /* create the elements to hold the cards on the page */
-      function buildBoard() {
-        for (let i = 0; i < 12; i++) {
-          var newCard = new Card(i, "cards/" + i + ".png", false);
-          cardArray.push(newCard);
+
+        /*no two games should be the same, that wouldn't be any fun. Radomize the cards*/
+        function shuffle(array) {
+          var currentIndex = array.length,
+            temporaryValue, randomIndex;
+
+          // While there remain elements to shuffle...
+          while (0 !== currentIndex) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+          }
+
+          return array;
         }
-        //all cards need a match so add the array to itself
-        cardArray = cardArray.concat(cardArray);
-        cardArray = shuffle(cardArray);
-        //place on the page
-        let cardtable = document.querySelector("#cardTableBody");
-        let counter = 0;
-        for (var j = 0; j < 3; j++) {
-          var row = document.createElement("tr");
-          for (var k = 0; k < 8; k++) {
-            var cell = document.createElement("td");
-            var figure = document.createElement("figure");
-            var image = document.createElement("img");
-            image.setAttribute("id", counter);
-            image.setAttribute("cardId", cardArray[counter].id);
-            image.setAttribute("isFlipped", false);
-            image.src = "CardBack.jpg";
-            figure.appendChild(image);
-            cell.appendChild(figure);
-            row.appendChild(cell);
-            cardtable.appendChild(row);
-            image.addEventListener("click", function() {
-              flipFront();
-            });
-            counter++;
+
+        /*when the page loads show the welcome modal */
+        $(document).ready(function() {
+          $("#modalstart").show();
+        });
+
+        /* create the elements to hold the cards on the page */
+        function buildBoard() {
+          for (let i = 0; i < 12; i++) {
+            var newCard = new Card(i, "cards/" + i + ".png", false);
+            cardArray.push(newCard);
+          }
+          //all cards need a match so add the array to itself
+          cardArray = cardArray.concat(cardArray);
+          cardArray = shuffle(cardArray);
+
+          //place on the page
+          let cardtable = document.querySelector("#cardTableBody");
+
+          let counter = 0;
+          for (var j = 0; j < 3; j++) {
+            var row = document.createElement("tr");
+            for (var k = 0; k < 8; k++) {
+
+              var cell = document.createElement("td");
+              var figure = document.createElement("figure");
+              figure.setAttribute("cardNumber", counter);
+              var image = document.createElement("img");
+              //image.src = cardArray[counter].fileName;
+			  image.src = "CardBack.jpg";
+              figure.appendChild(image);
+              cell.appendChild(figure);
+              row.appendChild(cell);
+              image.click( function(){ flipCard(image, 5); });
+              counter++;
+              cardtable.appendChild(row);
+            }
           }
         }
-      }
-      function flipFront() {
-        var imgElement = event.srcElement;
-        var num = imgElement.getAttribute("id");
-        imgElement.src = cardArray[num].fileName;
-        imgElement.setAttribute("isFlipped", true);
-        clicks.push(imgElement);
-        interval = setTimeout(game, 2000);
-      }
-      function flipBack(cardImageNode) {
-        cardImageNode.src = "CardBack.jpg";
-        cardImageNode.setAttribute("isFlipped", false);
-      }
-      /* Ready, set, go!*/
-      $("#startButton").click(function() {
-        $(".modal").hide();
-        buildBoard();
-      });
-      /*
-      check if won - all cards are isFlipped = true
-      turn - click two cards,
-      card clicked - check if first or second card flip, if first do nothing,
-      if second if the id's match, they stay - check if won, else flip
-      when timer is over, flip all unflipped cards, display loosing modal
-      */
-      function game() {
-        //if all the cards are flipped
-        //if queue of clicks is less than 2, wait
-        console.log("game");
-        console.log("click length " + clicks.length);
-        if (clicks.length > 1) {
-          var card1 = clicks.shift();
-          var card2 = clicks.shift();
-          console.log("cards have been added");
-          if (card1.getAttribute("cardId") != card2.getAttribute("cardId")) {
-            flipBack(card1);
-            flipBack(card2);
-            console.log("boo no match");
-          }
-          //else match - Hooray!
-          if (document.querySelectorAll("[isFlipped=false]").length == 0) {
-            $("#modalEnd").show();
-            //the game is won!
-            //end the game
-          }
+
+        function flipCard(cardImageNode, cardNumber)
+        {
+          cardImageNode.src = cardArray[cardNumber].fileName;
         }
-      }
-    })();
-  </script>
-  </body>
+
+
+
+
+
+        /* Ready, set, go!*/
+        $("#startButton").click(function() {
+          $(".modal").hide();
+          buildBoard();
+        });
+
+
+
+        /*
+
+        check if won - all cards are isFlipped = true
+
+        turn - click two cards,
+        card clicked - check if first or second card flip, if first do nothing,
+        if second if the id's match, they stay - check if won, else flip
+
+        when timer is over, flip all unflipped cards, display loosing modal
+
+        */
+
+
+
+
+
+
+      })();
+    </script>
+</body>
 
 </html>
