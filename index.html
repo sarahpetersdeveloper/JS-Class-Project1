@@ -19,24 +19,19 @@
       background-position: top center;
       background-color: #000;
     }
-
     img {
       width: 100px;
       height: 150px;
     }
-
-
     .boardgame {
       padding: 10rem 1.5rem;
       width: 1100px;
       margin: 0 auto;
     }
-
     .starter-template {
       padding: 3rem 1.5rem;
       text-align: center;
     }
-
     .tab-body {
       padding: 1.5rem;
     }
@@ -84,45 +79,36 @@
   </div>
   <script>
     (function() {
-
       let cardArray = []; // the card array to hold all the playing cards
       let clicks = []; //the order of clicks to process
       let isPlaying = false;
       let interval;
-
       // the card constructor to create new cards
       function Card(id, fileName, isFlipped) {
         this.id = id;
         this.fileName = fileName;
         this.isFlipped = isFlipped;
       }
-
       /*no two games should be the same, that wouldn't be any fun. Radomize the cards*/
       function shuffle(array) {
         var currentIndex = array.length,
           temporaryValue, randomIndex;
-
         // While there remain elements to shuffle...
         while (0 !== currentIndex) {
-
           // Pick a remaining element...
           randomIndex = Math.floor(Math.random() * currentIndex);
           currentIndex -= 1;
-
           // And swap it with the current element.
           temporaryValue = array[currentIndex];
           array[currentIndex] = array[randomIndex];
           array[randomIndex] = temporaryValue;
         }
-
         return array;
       }
-
       /*when the page loads show the welcome modal */
       $(document).ready(function() {
         $("#modalstart").show();
       });
-
       /* create the elements to hold the cards on the page */
       function buildBoard() {
         for (let i = 0; i < 12; i++) {
@@ -132,18 +118,14 @@
         //all cards need a match so add the array to itself
         cardArray = cardArray.concat(cardArray);
         cardArray = shuffle(cardArray);
-
         //place on the page
         let cardtable = document.querySelector("#cardTableBody");
-
         let counter = 0;
         for (var j = 0; j < 3; j++) {
           var row = document.createElement("tr");
           for (var k = 0; k < 8; k++) {
-
             var cell = document.createElement("td");
             var figure = document.createElement("figure");
-
             var image = document.createElement("img");
             image.setAttribute("id", counter);
             image.setAttribute("cardId", cardArray[counter].id);
@@ -156,13 +138,10 @@
             image.addEventListener("click", function() {
               flipFront();
             });
-
-
             counter++;
           }
         }
       }
-
       function flipFront() {
         var imgElement = event.srcElement;
         var num = imgElement.getAttribute("id");
@@ -171,33 +150,22 @@
         clicks.push(imgElement);
         interval = setTimeout(game, 2000);
       }
-
       function flipBack(cardImageNode) {
         cardImageNode.src = "CardBack.jpg";
         cardImageNode.setAttribute("isFlipped", false);
       }
-
       /* Ready, set, go!*/
       $("#startButton").click(function() {
         $(".modal").hide();
         buildBoard();
       });
-
-
-
       /*
-
       check if won - all cards are isFlipped = true
-
       turn - click two cards,
       card clicked - check if first or second card flip, if first do nothing,
       if second if the id's match, they stay - check if won, else flip
-
       when timer is over, flip all unflipped cards, display loosing modal
-
       */
-
-
       function game() {
         //if all the cards are flipped
         //if queue of clicks is less than 2, wait
@@ -212,20 +180,14 @@
             flipBack(card2);
             console.log("boo no match");
           }
-
           //else match - Hooray!
-
           if (document.querySelectorAll("[isFlipped=false]").length == 0) {
             $("#modalEnd").show();
             //the game is won!
             //end the game
           }
         }
-
       }
-
-
-
     })();
   </script>
   </body>
