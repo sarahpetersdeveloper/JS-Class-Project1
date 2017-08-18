@@ -6,39 +6,74 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>Bootstrap Starter Template</title>
+  <title>CivicMemory</title>
   <!-- Bootstrap core CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
   <!-- Custom styles for this template -->
   <style>
+  #timercountdown {
+  padding: 5rem;
+  top 5px;
+  color: red;
+    text-align: center;
+    font-size: 54px;
+	width: 100%;
+    height: auto;
+	}
     body {
       padding-top: 5rem;
-      background-image: url('GameBoard.jpg');
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: top center;
-      background-color: #000;
+      background: url('GameBoard.jpg') no-repeat fixed top center;
+	background-size: 100% 100%;
+    }
+
+	.modal {
+	width: 100%;
+    height: auto;
     }
     img {
       width: 100px;
       height: 150px;
+	  width: 100%;
+    height: auto;
     }
     .boardgame {
-      padding: 10rem 1.5rem;
-      width: 1100px;
+      width: 100%;
+    height: auto;
       margin: 0 auto;
     }
     .starter-template {
-      padding: 3rem 1.5rem;
       text-align: center;
+	  width: 100%;
+    height: auto;
     }
+	#cardTable {
+	margin: auto;
+    width: 60%;
+    padding: 6px;
+	}
     .tab-body {
-      padding: 1.5rem;
+      padding: 1rem;
+	  width: 100%;
+    height: auto;
     }
+
   </style>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
-
+<div id="timercountdown" class="timer">
+  <div class="timer-dialog" role="document">
+    <div class="timer-content">
+      <div class="timer-header">
+        <h5 class="timer-title">Timer</h5>
+      </div>
+      <div class="timer-body">
+	  <p id="countdowntimer"></p>
+      </div>
+      <div class="timer-footer">
+      </div>
+    </div>
+  </div>
+</div>
 <div class="boardgame">
   <table id="cardTable" cellpadding="15">
     <thead></thead>
@@ -77,6 +112,7 @@
       </div>
     </div>
   </div>
+
   <script>
     (function() {
       let cardArray = []; // the card array to hold all the playing cards
@@ -158,6 +194,9 @@
       $("#startButton").click(function() {
         $(".modal").hide();
         buildBoard();
+		let timer  = setInterval(function() {
+		timerCounter();
+	}, 1000);
       });
       /*
       check if won - all cards are isFlipped = true
@@ -188,6 +227,22 @@
           }
         }
       }
+
+	    //Set countdown timer 60 seconds
+	let count = 60
+
+		// Update the count down every 1 second
+
+	function timercounter() {
+		count--;
+		if(count <= 0){
+	  	alert("YOU LOST! SARAH WINS!!! LOSER!!!!!!!!!!!!");
+		clearInterval(timer);
+	  }
+	  else{
+	  document.getElementById("countdowntimer").innerHTML = count + " s ";
+	  }
+	}
     })();
   </script>
   </body>
