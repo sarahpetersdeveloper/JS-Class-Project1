@@ -106,13 +106,13 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">You won!</h5>
+        <h5 class="modal-title">You Lost!</h5>
       </div>
       <div class="modal-body">
-        <p>You have a fantastic memory and great perseverance. Want to play again?</p>
+        <p>Your memory is as good as a gold fish. Want to play again?</p>
       </div>
       <div class="modal-footer">
-        <button id="startButton" type="button" class="btn btn-primary">Start!</button>
+        <button id="resetButton" type="button" class="btn btn-primary">Start!</button>
       </div>
     </div>
   </div>
@@ -122,8 +122,15 @@
   (function() {
     let cardArray = []; // the card array to hold all the playing cards
     let clicks = []; //the order of clicks to process
-    let isPlaying = false;
     let interval;
+
+    /*when the page loads show the welcome modal */
+    $(document).ready(function() {
+      $("#modalstart").show();
+    });
+
+
+
     // the card constructor to create new cards
     function Card(id, fileName, isFlipped) {
       this.id = id;
@@ -146,10 +153,7 @@
       }
       return array;
     }
-    /*when the page loads show the welcome modal */
-    $(document).ready(function() {
-      $("#modalstart").show();
-    });
+
     /* create the elements to hold the cards on the page */
     function buildBoard() {
       for (let i = 0; i < 12; i++) {
@@ -205,6 +209,17 @@
         timerCounter();
       }, 1000);
     });
+
+    $("#resetButton").click(function() {
+      $(".modal").hide();
+      let cardtable = document.querySelector("#cardTableBody");
+      cardtable.innerHTML = '';
+      buildBoard();
+      let timer = setInterval(function() {
+        timerCounter();
+      }, 1000);
+    });
+
     /*
     check if won - all cards are isFlipped = true
     turn - click two cards,
@@ -236,14 +251,14 @@
     }
 
     //Set countdown timer 60 seconds
-    let count = 60
+    let count = 60;
 
     // Update the count down every 1 second
 
-    function timercounter() {
+    function timerCounter() {
       count--;
       if (count <= 0) {
-        alert("YOU LOST! SARAH WINS!!! LOSER!!!!!!!!!!!!");
+          $("#modalEnd").show();
         clearInterval(timer);
       } else {
         document.getElementById("countdowntimer").innerHTML = count + " s ";
