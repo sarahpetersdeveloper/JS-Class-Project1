@@ -1,5 +1,5 @@
 {
-  "name": "demo-app",
+  "name": "civicmemory",
   "version": "0.0.1",
   "dependencies": {
     "express": "latest"
@@ -9,7 +9,9 @@
     "npm": "3.10.10"
   },
   "scripts": {
-    "start": "node app.js"
+    "start": "harp server --port $PORT"
+  },
+  "dependencies": {
+    "harp": "*"
   }
 }
-
