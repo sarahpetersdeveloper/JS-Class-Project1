@@ -68,13 +68,8 @@
 <div id="timercountdown" class="timer">
   <div class="timer-dialog" role="document">
     <div class="timer-content">
-      <div class="timer-header">
-        <h5 class="timer-title">Timer</h5>
-      </div>
       <div class="timer-body">
         <p id="countdowntimer"></p>
-      </div>
-      <div class="timer-footer">
       </div>
     </div>
   </div>
@@ -106,9 +101,9 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">You Lost!</h5>
+        <h5 id="modalTileEnd" class="modal-title">You Lost!</h5>
       </div>
-      <div class="modal-body">
+      <div id= "modalMessageEnd" class="modal-body">
         <p>Your memory is as good as a gold fish. Want to play again?</p>
       </div>
       <div class="modal-footer">
@@ -123,6 +118,8 @@
     let cardArray = []; // the card array to hold all the playing cards
     let clicks = []; //the order of clicks to process
     let interval;
+    let timer; // the event that fires every 1 second
+    let count = 60; //the count down and the length of the game
 
     /*when the page loads show the welcome modal */
     $(document).ready(function() {
@@ -205,7 +202,7 @@
     $("#startButton").click(function() {
       $(".modal").hide();
       buildBoard();
-      let timer = setInterval(function() {
+      timer = setInterval(function() {
         timerCounter();
       }, 1000);
     });
@@ -213,9 +210,10 @@
     $("#resetButton").click(function() {
       $(".modal").hide();
       let cardtable = document.querySelector("#cardTableBody");
-      cardtable.innerHTML = '';
+      cardtable.innerHTML = ''; //wipe out the board
       buildBoard();
-      let timer = setInterval(function() {
+      count = 60; //reset the countdown
+      timer = setInterval(function() {
         timerCounter();
       }, 1000);
     });
@@ -243,6 +241,9 @@
         }
         //else match - Hooray!
         if (document.querySelectorAll("[isFlipped=false]").length == 0) {
+
+          document.querySelector("#modalTileEnd").textContent = "YOU WON!!!";
+          document.querySelector("#modalMessageEnd").textContent = "You are smarter than all the gold fish combined. Please play again.";
           $("#modalEnd").show();
           //the game is won!
           //end the game
@@ -250,16 +251,19 @@
       }
     }
 
-    //Set countdown timer 60 seconds
-    let count = 60;
+
 
     // Update the count down every 1 second
 
     function timerCounter() {
       count--;
       if (count <= 0) {
-          $("#modalEnd").show();
-        clearInterval(timer);
+        if (document.querySelectorAll("[isFlipped=false]").length == 0) {
+        document.querySelector("#modalTileEnd").textContent = "YOU WON!!!";
+        document.querySelector("#modalMessageEnd").textContent = "You are smarter than all the gold fish combined. Please play again.";
+        }
+        $("#modalEnd").show();
+        timer = clearInterval(timer);
       } else {
         document.getElementById("countdowntimer").innerHTML = count + " s ";
       }
