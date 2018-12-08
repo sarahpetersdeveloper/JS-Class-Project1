@@ -3,6 +3,6 @@
   "description": "test your memory with this card game",
   "repository": "https://github.com/sarahpetersdeveloper/JS-Class-Project1-MemoryGame",
   "logo":
-"https://rawgit.com/kilavagora/node-js-demo/master/static/JavaScript.svg",
+"https://cdn.jsdelivr.net/gh/kilavagora/node-js-demo/static/JavaScript.svg",
   "keywords": ["node", "memorygame", "static"]
 }
